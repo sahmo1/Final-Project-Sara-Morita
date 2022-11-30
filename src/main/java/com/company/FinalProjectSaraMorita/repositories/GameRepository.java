@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public class GameRepository extends JpaRepository<Game, Integer> {
+public interface GameRepository extends JpaRepository<Game, Integer> {
 
     public List<Game> findAllGamesByStudio(String studio);
     public List<Game> findAllGamesByTitle(String title);

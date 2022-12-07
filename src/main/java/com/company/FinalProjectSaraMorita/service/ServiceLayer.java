@@ -81,7 +81,7 @@ public class ServiceLayer
 
         //PART 1: check for type of console
         if (invoiceViewModel.getItemType().equals("Console")){
-            Optional<Console> console = consoleRepository.findById(invoiceViewModel.getId());
+            Optional<Console> console = consoleRepository.findById(invoiceViewModel.getItemId());
 
             if (console.isPresent()){
                 price = console.get().getPrice();
@@ -118,7 +118,7 @@ public class ServiceLayer
 
         if (invoiceViewModel.getItemType().equals("Game"))
         {
-            Optional<Game> game = gameRepository.findById(invoiceViewModel.getId());
+            Optional<Game> game = gameRepository.findById(invoiceViewModel.getItemId());
 
             if (!game.isPresent()){
                 throw new IllegalArgumentException("Invalid game");
@@ -152,7 +152,7 @@ public class ServiceLayer
 
         //PART 3: Check for Tshirt
         if (invoiceViewModel.getItemType().equals("T-shirt")){
-            Optional<Tshirt> tshirt = tshirtRepository.findById(invoiceViewModel.getId());
+            Optional<Tshirt> tshirt = tshirtRepository.findById(invoiceViewModel.getItemId());
 
             if (!tshirt.isPresent()){
                 throw new IllegalArgumentException("Invalid tshirt");
@@ -184,20 +184,25 @@ public class ServiceLayer
         }
 
         //if the above 3 conditions are not met, throw an exception
-        throw new IllegalArgumentException("Invalid item type");
+        //throw new IllegalArgumentException("Invalid item type");
 
         //PART 4: compute processing fee
-        ProcessingFee processingFee = processingFeeRepository.findFeeByProductType(invoiceViewModel.getItemType());
-        BigDecimal processingFeeAmount = processingFee.getProcessingFee();
+        ProcessingFee pFee = processingFeeRepository.findFeeByProductType(invoiceViewModel.getItemType());
+        BigDecimal feePerItem = pFee.getProcessingFee();
         BigDecimal additionalFee = BigDecimal.valueOf(15.49);
-        BigDecimal totalProcessingFee = (quantity > 10) ? processingFeeAmount.add(additionalFee) : processingFeeAmount;
+        BigDecimal totalProcessingFee = (quantity > 10) ? (feePerItem.add(additionalFee)) : feePerItem;
+
 
         //PART 5: Setup sales tax
         SalesTax salesTax = salesTaxRepository.findRateByState(state);
         BigDecimal stateTax = salesTax.getRate();
+        //calculate the total state tax
         BigDecimal totalStateTax = stateTax.multiply(price).multiply(BigDecimal.valueOf(quantity));
 
-        //PART 6: Setup Final Price 
+        
+
+        //PART 6: Setup Final Price
+
         finalPrice = price.multiply(BigDecimal.valueOf(quantity)).add(totalProcessingFee).add(totalStateTax);
 
         //round the finalPrice to 2 decimal places

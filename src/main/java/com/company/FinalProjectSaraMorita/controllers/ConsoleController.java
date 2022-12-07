@@ -26,8 +26,10 @@ public class ConsoleController {
         Optional<Console> returnValue = consoleRepository.findById(id);
         if(returnValue.isPresent()) {
             return returnValue.get();
+        } else {
+            return null;
         }
-        return null;
+        
     }
 
     @GetMapping("/consoles/manufacturers/{manufacturer}")
@@ -35,8 +37,10 @@ public class ConsoleController {
         List<Console> returnValue = consoleRepository.findAllConsolesByManufacturer(manufacturer);
         if(returnValue.size() > 0) {
             return returnValue;
+        } else {
+            return null;
         }
-        return null;
+        
     }
 
     @PostMapping("/consoles")

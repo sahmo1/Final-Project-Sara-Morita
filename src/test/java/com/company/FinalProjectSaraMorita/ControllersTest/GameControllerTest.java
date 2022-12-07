@@ -125,7 +125,7 @@ public class GameControllerTest {
 
         allGamesJson = mapper.writeValueAsString(allGamesByTitle);
 
-        doReturn(allGamesByTitle).when(repo).findAllGamesByTitle("Little Big Planet 2");
+        doReturn(allGamesByTitle).when(repo).findAllGamesByTitle("Hello World 2");
 
         ResultActions result = mockMvc.perform(
                         get("/games/title/Hello World 2"))
@@ -146,15 +146,6 @@ public class GameControllerTest {
                 );
     }
 
-    @Test
-    public void shouldBStatus422ForNonExistentGameId() throws Exception
-    {
-        mockMvc.perform(
-                        get("/games/8888"))
-                .andExpect(status().is4xxClientError()
-                );
-
-    }
 
     @Test
     public void shouldReturnAllGames() throws Exception {

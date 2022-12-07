@@ -63,7 +63,7 @@ public class ServiceLayer
     {
 
         BigDecimal finalPrice = new BigDecimal(0);
-        BigDecimal price;
+        BigDecimal price = null;
         int inventory;
         int quantity = invoiceViewModel.getQuantity();
         String state = invoiceViewModel.getState();
@@ -72,20 +72,19 @@ public class ServiceLayer
         //check for valid zipcode 
         if (isZipcode(zipcode) == false){
             throw new IllegalArgumentException("Invalid zipcode");
-        }
-
-        //check for valid quantity
-        if (quantity < 1){
+        } else if (quantity < 1){
             throw new IllegalArgumentException("Invalid quantity");
         }
 
         //PART 1: check for type of console
-        if (invoiceViewModel.getItemType().equals("Console")){
+        if (invoiceViewModel.getItemType().equals("Console"))
+        {
             Optional<Console> console = consoleRepository.findById(invoiceViewModel.getItemId());
 
             if (console.isPresent()){
-                price = console.get().getPrice();
                 inventory = console.get().getQuantity();
+                price = console.get().getPrice();
+                
 
                 int newInventory = inventory - quantity;
 
@@ -151,7 +150,8 @@ public class ServiceLayer
         }
 
         //PART 3: Check for Tshirt
-        if (invoiceViewModel.getItemType().equals("T-shirt")){
+        if (invoiceViewModel.getItemType().equals("T-shirt"))
+        {
             Optional<Tshirt> tshirt = tshirtRepository.findById(invoiceViewModel.getItemId());
 
             if (!tshirt.isPresent()){
@@ -195,9 +195,9 @@ public class ServiceLayer
 
         //PART 5: Setup sales tax
         SalesTax salesTax = salesTaxRepository.findRateByState(state);
-        BigDecimal stateTax = salesTax.getRate();
+        BigDecimal getStateTax = salesTax.getRate();
         //calculate the total state tax
-        BigDecimal totalStateTax = stateTax.multiply(price).multiply(BigDecimal.valueOf(quantity));
+        BigDecimal totalStateTax = getStateTax.multiply(price).multiply(BigDecimal.valueOf(quantity));
 
         
 

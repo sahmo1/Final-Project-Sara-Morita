@@ -29,9 +29,8 @@ public class GameControllers {
         Optional<Game> returnValue = gameRepo.findById(id);
         if (returnValue.isPresent()){
             return returnValue.get();
-        } else{
-            return null;
         }
+        return null;
     }
 
     @GetMapping("/games/rating/{esrbRating}")
@@ -39,9 +38,8 @@ public class GameControllers {
         List<Game> returnVal = gameRepo.findAllGamesByEsrbRating(esrbRating);
         if (returnVal.size() > 0) {
             return returnVal;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @GetMapping("/games/title/{title}")
@@ -49,9 +47,8 @@ public class GameControllers {
         List<Game> returnVal = gameRepo.findAllGamesByTitle(title);
         if (returnVal.size() > 0) {
             return returnVal;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @GetMapping("/games/studio/{studio}")
@@ -59,9 +56,8 @@ public class GameControllers {
         List<Game> returnVal = gameRepo.findAllGamesByStudio(studio);
         if (returnVal.size() > 0) {
             return returnVal;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @PostMapping("/games")

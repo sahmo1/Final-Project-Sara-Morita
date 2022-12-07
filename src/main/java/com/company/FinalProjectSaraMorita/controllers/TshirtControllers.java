@@ -25,31 +25,25 @@ public class TshirtControllers {
         if (returnValue.isPresent()){
             return returnValue.get();
         }
-        else{
-            return null;
-        }
+        return null;
     }
 
     @GetMapping("/tshirts/size/{size}")
     public List<Tshirt> getTshirtBySize(@PathVariable String size) {
-        List<Tshirt> returnVal = tshirtRepository.findTshirtBySize(size);
-        if(returnVal.size() > 0) {
-            return returnVal;
+        List<Tshirt> returnValue = tshirtRepository.findTshirtBySize(size);
+        if(returnValue.size() > 0) {
+            return returnValue;
         }
-        else{
-            return null;
-        }
+        return null;
     }
 
     @GetMapping("/tshirts/color/{color}")
     public List<Tshirt> getTshirtByColor(@PathVariable String color) {
-        List<Tshirt> returnVal = tshirtRepository.findTshirtByColor(color);
-        if(returnVal.size() > 0) {
-            return returnVal;
+        List<Tshirt> returnValue = tshirtRepository.findTshirtByColor(color);
+        if(returnValue.size() > 0) {
+            return returnValue;
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     @PostMapping("/tshirts")
@@ -64,7 +58,7 @@ public class TshirtControllers {
         tshirtRepository.save(tshirt);
     }
 
-    @DeleteMapping("/tshirts/{}")
+    @DeleteMapping("/tshirts/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTshirt(@PathVariable int ID) {
         tshirtRepository.deleteById(ID);

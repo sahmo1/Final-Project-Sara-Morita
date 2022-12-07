@@ -1,12 +1,9 @@
 package com.company.FinalProjectSaraMorita.service;
-
-import com.company.FinalProjectSaraMorita.models.Console;
 import com.company.FinalProjectSaraMorita.models.*;
 import com.company.FinalProjectSaraMorita.ViewModel.*;
 import com.company.FinalProjectSaraMorita.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
@@ -58,6 +55,7 @@ public class ServiceLayer {
         return false;
     }
 
+    @Transactional
     public InvoiceViewModel saveInvoice(InvoiceViewModel invoiceViewModel)
     {
 
@@ -186,9 +184,9 @@ public class ServiceLayer {
         throw new IllegalArgumentException("Invalid item type");
 
         //PART 4: Setup processing fee
-        ProcessingFee processingFee = processingFeeRepository.findFeeByProductType(invoiceViewModel.getItemType());
+        ProcessingFee processingFeeItem = processingFeeRepository.findFeeByProductType(invoiceViewModel.getItemType());
 
-        BigDecimal processingFeeAmount = processingFee.getProcessingFee();
+        BigDecimal processingFeeAmount = processingFeeItem.getProcessingFee();
         BigDecimal additionalFee = BigDecimal.valueOf(15.49);
         BigDecimal totalProcessingFee = (quantity > 10) ? processingFeeAmount.add(additionalFee) : processingFeeAmount;
 

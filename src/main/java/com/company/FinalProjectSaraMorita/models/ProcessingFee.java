@@ -21,6 +21,7 @@ public class ProcessingFee implements Serializable {
     private BigDecimal processingFee;
 
     public String getProductType() {
+
         return productType;
     }
 

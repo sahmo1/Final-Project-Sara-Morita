@@ -2,6 +2,7 @@ package com.company.FinalProjectSaraMorita.service;
 import com.company.FinalProjectSaraMorita.models.*;
 import com.company.FinalProjectSaraMorita.ViewModel.*;
 import com.company.FinalProjectSaraMorita.repositories.*;
+import com.company.FinalProjectSaraMorita.repositories.ProcessingFeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,8 @@ import java.math.RoundingMode;
 import java.util.Optional;
 
 @Component
-public class ServiceLayer {
+public class ServiceLayer
+{
 
     private InvoiceRepository invoiceRepository;
     private SalesTaxRepository salesTaxRepository;
@@ -21,6 +23,7 @@ public class ServiceLayer {
     private GameRepository gameRepository;
     private ConsoleRepository consoleRepository;
 
+    //constructors
     @Autowired
     public ServiceLayer(ConsoleRepository consoleRepository, GameRepository gameRepository,
                         TshirtRepository tshirtRepository, ProcessingFeeRepository processingFeeRepository, SalesTaxRepository salesTaxRepository,
@@ -183,13 +186,11 @@ public class ServiceLayer {
         //if the above 3 conditions are not met, throw an exception
         throw new IllegalArgumentException("Invalid item type");
 
-        //PART 4: Setup processing fee
-        ProcessingFee processingFeeItem = processingFeeRepository.findFeeByProductType(invoiceViewModel.getItemType());
-
-        BigDecimal processingFeeAmount = processingFeeItem.getProcessingFee();
+        //PART 4: compute processing fee
+        ProcessingFee processingFee = processingFeeRepository.findFeeByProductType(invoiceViewModel.getItemType());
+        BigDecimal processingFeeAmount = processingFee.getProcessingFee();
         BigDecimal additionalFee = BigDecimal.valueOf(15.49);
         BigDecimal totalProcessingFee = (quantity > 10) ? processingFeeAmount.add(additionalFee) : processingFeeAmount;
-
 
         //PART 5: Setup sales tax
         SalesTax salesTax = salesTaxRepository.findRateByState(state);

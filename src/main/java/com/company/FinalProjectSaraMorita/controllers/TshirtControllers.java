@@ -19,7 +19,7 @@ public class TshirtControllers {
         return tshirtRepository.findAll();
     }
 
-    public Tshirt frindTshirtById(@PathVariable int tShirtID){
+    public Tshirt findTshirtById(@PathVariable int tShirtID){
         Optional<Tshirt> returnValue = tshirtRepository.findById(tShirtID);
 
         if (returnValue.isPresent()){

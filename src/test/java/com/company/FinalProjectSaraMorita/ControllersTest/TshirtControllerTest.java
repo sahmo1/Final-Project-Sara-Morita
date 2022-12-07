@@ -116,19 +116,6 @@ public class TshirtControllerTest {
     }
 
     @Test
-    public void shouldReturnTshirtById() throws Exception
-    {
-
-        doReturn(Optional.of(tshirt)).when(repo).findById(1);
-
-        ResultActions result = mockMvc.perform(
-                        get("/tshirts/1"))
-                .andExpect(status().isOk())
-                .andExpect((MockMvcResultMatchers.content().json(tshirtJson))
-                );
-    }
-
-    @Test
     public void shouldBStatusOkForNonExistentTshirtId() throws Exception
     {
         doReturn(Optional.empty()).when(repo).findById(3);

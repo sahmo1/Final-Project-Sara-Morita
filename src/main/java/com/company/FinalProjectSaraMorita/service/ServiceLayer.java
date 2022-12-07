@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 @Component
@@ -211,12 +212,12 @@ public class ServiceLayer {
         invoice.setState(invoiceViewModel.getState());
         invoice.setZipcode(invoiceViewModel.getZipcode());
         invoice.setItemType(invoiceViewModel.getItemType());
-        invoice.setItemId(invoiceViewModel.getId());
+        invoice.setId(invoiceViewModel.getId());
         invoice.setUnitPrice(price);
         invoice.setQuantity(quantity);
         invoice.setSubtotal(price.multiply(BigDecimal.valueOf(quantity)));
         invoice.setTax(totalStateTax);
-        invoice.setProcessingFee(totalProcessingFee);
+        invoice.setProcessing_fee(totalProcessingFee);
         invoice.setTotal(finalPrice);
 
         //save invoice
